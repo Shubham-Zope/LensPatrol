@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<style>
+    table,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+    <label for="class">Choose a car:</label>
+    <select name="classevent" id="classevent" onchange="getclassdata(this.options[this.selectedIndex].value)">
+        <option value="/allevents?class=snatch">snatch</option>
+        <option value="/allevents?class=fire">fire</option>
+        <option value="/allevents?class=mask">mask</option>
+        <option value="/allevents?class=weapon">weapon</option>
+        <option value="/allevents?class=Post Hour Intruder">intruder</option>
+        <option value="/allevents?class=tampering">tampering</option>
+    </select>
+    <br><br><br><br>
+    <label for="birthdaytime">From (date and time):</label>
+    <input type="datetime-local" id="fromtime" name="fromtime" onchange="fromdata()">
+    <label for="birthdaytime">To (date and time):</label>
+    <input type="datetime-local" id="totime" name="totime" onchange="todata()">
+    <br><br><br>
+    <div class="row">
+        <div class="contentevents">
+            <table id="alleventdata">
+                <tr>
+                    <td>Image</td>
+                    <td>Class</td>
+                    <td>Time</td>
+                    <td>Button</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</body>
+
+<script>
+    var endpoint = '/allevents'
+
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function (data) {
+            displayallevent(data);
+            console.log(data);
+        },
+        error: function (error_data) {
+            console.log(error_data);
+        },
+    });
+
+    function hreflocation(clicked) {
+        console.log(this.id);
+        // window.location.href = "http://127.0.0.1:5000/getalertpage?dataid="+this.id;
+        window.open("http://127.0.0.1:5000/getalertpage?dataid=" + this.id)
+    }
+
+    function getclassdata(dataclass) {
+        console.log(dataclass);
+        var endpointdataclass = dataclass;
+
+        $.ajax({
+            method: "GET",
+            url: endpointdataclass,
+            success: function (data) {
+                displayclassevent(data);
+                console.log(data);
+            },
+            error: function (error_data) {
+                console.log(error_data);
+            },
+        });
+
+        function displayclassevent(data) {
+            let n = data['classevent'].length;
+            var table = document.getElementById('alleventdata');
+            console.log(table.rows.length);
+            var rowCount = table.rows.length;
+            for (var i = rowCount - 1; i > 0; i--) {
+                table.deleteRow(i);
+            }
+            for (let i = 0; i < n; i++) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var img = document.createElement('img')
+                img.src = "data:image/jpeg;base64," + data.decoded_img_data_all[i];
+                img.style.width = "50%";
+                cell1.append(img);
+                cell2.innerHTML = data.classevent[i];
+                var datatimestamp = new Date(Date.parse(data.timestamp[i]));
+                cell3.innerHTML = datatimestamp.toLocaleString();
+                var formreport = document.createElement('form');
+                var btn = document.createElement('button');
+                btn.id = data.ids[i];
+                btn.value = data.ids[i];
+                btn.innerHTML = "View Report";
+                btn.onclick = hreflocation;
+                cell4.append(btn);
+            }
+        }
+    }
+
+    function displayallevent(data) {
+        let n = data['classevent'].length;
+        var table = document.getElementById('alleventdata');
+        for (let i = 0; i < n; i++) {
+            var row = table.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var img = document.createElement('img')
+            img.src = "data:image/jpeg;base64," + data.decoded_img_data_all[i];
+            img.style.width = "50%";
+            cell1.append(img);
+            cell2.innerHTML = data.classevent[i];
+            var datatimestamp = new Date(Date.parse(data.timestamp[i]));
+            cell3.innerHTML = datatimestamp.toLocaleString();
+            var formreport = document.createElement('form');
+            var btn = document.createElement('button');
+            btn.id = data.ids[i];
+            btn.value = data.ids[i];
+            btn.innerHTML = "View Report";
+            btn.onclick = hreflocation;
+            cell4.append(btn);
+        }
+    }
+
+    function fromdata(){
+        if(document.getElementById("totime").value){
+            console.log(document.getElementById("fromtime").value);
+            console.log(document.getElementById("totime").value);
+
+            var fromtime = document.getElementById("fromtime").value;
+            var totime = document.getElementById("totime").value;
+
+            var endpointtime = "/allevents?fromtime="+fromtime+"&totime="+totime;
+
+            $.ajax({
+            method: "GET",
+            url: endpointtime,
+            success: function (data) {
+                displaydatasevent(data);
+                console.log(data);
+            },
+            error: function (error_data) {
+                console.log(error_data);
+            },
+            });
+
+            function displaydatasevent(data) {
+            let n = data['classevent'].length;
+            var table = document.getElementById('alleventdata');
+            console.log(table.rows.length);
+            var rowCount = table.rows.length;
+            for (var i = rowCount - 1; i > 0; i--) {
+                table.deleteRow(i);
+            }
+            for (let i = 0; i < n; i++) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var img = document.createElement('img')
+                img.src = "data:image/jpeg;base64," + data.decoded_img_data_all[i];
+                img.style.width = "50%";
+                cell1.append(img);
+                cell2.innerHTML = data.classevent[i];
+                var datatimestamp = new Date(Date.parse(data.timestamp[i]));
+                cell3.innerHTML = datatimestamp.toLocaleString();
+                var formreport = document.createElement('form');
+                var btn = document.createElement('button');
+                btn.id = data.ids[i];
+                btn.value = data.ids[i];
+                btn.innerHTML = "View Report";
+                btn.onclick = hreflocation;
+                cell4.append(btn);
+            }
+        }
+        } 
+    }
+
+    function todata(){
+        if(document.getElementById("fromtime").value){
+            console.log(document.getElementById("fromtime").value);
+            console.log(document.getElementById("totime").value);
+
+            var fromtime = document.getElementById("fromtime").value;
+            var totime = document.getElementById("totime").value;
+
+            var endpointtime = "/allevents?fromtime="+fromtime+"&totime="+totime;
+
+            $.ajax({
+            method: "GET",
+            url: endpointtime,
+            success: function (data) {
+                displaydatasevent(data);
+                console.log(data);
+            },
+            error: function (error_data) {
+                console.log(error_data);
+            },
+            });
+            function displaydatasevent(data) {
+            let n = data['classevent'].length;
+            var table = document.getElementById('alleventdata');
+            console.log(table.rows.length);
+            var rowCount = table.rows.length;
+            for (var i = rowCount - 1; i > 0; i--) {
+                table.deleteRow(i);
+            }
+            for (let i = 0; i < n; i++) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var img = document.createElement('img')
+                img.src = "data:image/jpeg;base64," + data.decoded_img_data_all[i];
+                img.style.width = "50%";
+                cell1.append(img);
+                cell2.innerHTML = data.classevent[i];
+                var datatimestamp = new Date(Date.parse(data.timestamp[i]));
+                cell3.innerHTML = datatimestamp.toLocaleString();
+                var formreport = document.createElement('form');
+                var btn = document.createElement('button');
+                btn.id = data.ids[i];
+                btn.value = data.ids[i];
+                btn.innerHTML = "View Report";
+                btn.onclick = hreflocation;
+                cell4.append(btn);
+            }
+        }
+        } 
+    }
+
+
+</script>
+
+
+</html>

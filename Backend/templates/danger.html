@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<title>Alert Event</title>
+
+<body>
+  <div class="eventdata">
+    <h2 id='classevent'></h2>
+    <img id="eventimg" alt="img" style="width:50%">
+    <h2 id="timestamp"></h2>
+    <h2 id="falsepositive"></h2>
+    <form action="/suspicious" method="POST">
+      <input type="radio" id="suspicious" name="suspicious" value="suspicious">
+      <label for="suspicious">suspicious</label><br>
+      <input type="radio" id="suspicious" name="suspicious" value="notsuspicious">
+      <label for="notsuspicious">notsuspicious</label><br>
+      <br><br>
+      <input type="hidden" id="btnsuspicious" name="btnsuspicious">
+      <input type="submit" value="Submit">
+    </form>
+    <br><br><br><br>
+    <form action="/sendmail" method="POST">
+      <button id="report" name="report" type="submit">Send mail to security</button>
+    </form>
+  </div>
+</body>
+
+<script>
+  console.log(window.location.href);
+  let urlstring = window.location.href;
+  var url = new URL(urlstring);
+  var dataid = url.searchParams.get("dataid");
+  console.log(dataid);
+  var endpoint = "/danger?dataid=" + dataid;
+  console.log(endpoint);
+  $.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function (data) {
+      displayevent(data);
+      console.log(data);
+    },
+    error: function (error_data) {
+      console.log(error_data);
+    },
+  });
+
+  function displayevent(data) {
+    document.getElementById('classevent').innerHTML = "Class " + data.classevent;
+    document.getElementById('eventimg').src = "data:image/jpeg;base64," + data.decoded_img_data;
+    var datatimestamp = new Date(Date.parse(data.timestamp));
+    document.getElementById('timestamp').innerHTML = "Timestamp " + datatimestamp.toLocaleString();
+    document.getElementById('falsepositive').innerHTML = "Flagged as " + data.flagged_as;
+    document.getElementById('report').value = data.data_id;
+    document.getElementById('btnsuspicious').value = data.data_id;
+  }
+
+
+</script>
+
+
+</html>
