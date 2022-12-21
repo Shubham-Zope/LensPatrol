@@ -51,17 +51,92 @@ def chart():
 @app.route('/chartapi', methods=['GET', 'POST'])
 def chartapi():
     if request.method == 'GET':
-        datemonthyear = "{}:{}:{}".format(datetime.datetime.now().day, datetime.datetime.now().month,datetime.datetime.now().year)
-        data_event = dbanalysis.find_one({'date': datemonthyear})
-        print(data_event)
-        timea = data_event['time']
-        persa = data_event['personcount']
-        persamax = max(persa)
-        chartjson = {
+        if(not request.args):
+            timea = []
+            persa = []
+            persamax = 0
+            chartjson = {
             'time': timea,
             'personcount': persa,
             'persamax': persamax
         }
+        elif(request.args.get('fromtime')):
+            fromtime = request.args.get('fromtime').split('T')[1]
+            totime = request.args.get('totime').split('T')[1]
+            fromtimehour = int(fromtime.split(":")[0])
+            totimehour = int(totime.split(":")[0])
+            fromtimemin = int(fromtime.split(":")[1])
+            totimemin = int(totime.split(":")[1])
+            datemonthyear = "{}:{}:{}".format(datetime.datetime.now().day, datetime.datetime.now().month,datetime.datetime.now().year)
+            data_event = dbanalysis.find_one({'date': datemonthyear})
+            if(totimehour - fromtimehour <= 1):
+                timea = data_event['time']
+                persa = data_event['personcount']
+                timeper = []
+                personper = []
+                for i in range(len(timea)):
+                    if fromtime <= timea[i] <= totime:
+                        timeper.append(timea[i])
+                        personper.append(persa[i])
+                persamax = max(personper)
+                chartjson = {
+                    'time': timeper,
+                    'personcount': personper,
+                    'persamax': persamax
+                }
+            if(totimehour - fromtimehour > 1 and totimehour - fromtimehour <= 2):
+                timea = data_event['time']
+                persa = data_event['personcount']
+                timeper = []
+                personper = []
+                i = 0
+                while i !=len(timea)-1:
+                    if fromtime <= timea[i] <= totime:
+                        timeper.append(timea[i])
+                        personper.append(persa[i])
+                    i += 2
+                persamax = max(personper)
+                chartjson = {
+                    'time': timeper,
+                    'personcount': personper,
+                    'persamax': persamax
+                }
+            if(totimehour - fromtimehour > 2 and totimehour - fromtimehour <= 8):
+                timea = data_event['time']
+                persa = data_event['personcount']
+                timeper = []
+                personper = []
+                i = 0
+                while i !=len(timea)-1:
+                    if fromtime <= timea[i] <= totime:
+                        timeper.append(timea[i])
+                        personper.append(persa[i])
+                    i += 4
+                persamax = max(personper)
+                chartjson = {
+                    'time': timeper,
+                    'personcount': personper,
+                    'persamax': persamax
+                }
+            if(totimehour - fromtimehour > 8):
+                timea = data_event['time']
+                persa = data_event['personcount']
+                timeper = []
+                personper = []
+                i = 0
+                while i !=len(timea)-1:
+                    if fromtime <= timea[i] <= totime:
+                        timeper.append(timea[i])
+                        personper.append(persa[i])
+                    i += 12
+                timeper.append(timea[len(timea)-1])
+                personper.append(personper[len(personper)-1])
+                persamax = max(personper)
+                chartjson = {
+                    'time': timeper,
+                    'personcount': personper,
+                    'persamax': persamax
+                }
 
         return jsonify(chartjson)
 
@@ -260,6 +335,8 @@ def allevents():
          }
 
         return jsonify(alldataeventjson)
+
+        
     if(request.args.get('class')):
         print(request.args.get('class'))
         for x in dbimage.find({'classevent': {"$in": [request.args.get('class')]}}).sort("timestamp", -1):

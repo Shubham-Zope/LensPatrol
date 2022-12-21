@@ -1,53 +1,172 @@
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-<body>
-    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+  <body>
+    <br /><br /><br /><br />
+    <label for="birthdaytime">From (date and time):</label>
+    <input
+      type="datetime-local"
+      id="fromtime"
+      name="fromtime"
+      onchange="fromdata()"
+    />
+    <label for="birthdaytime">To (date and time):</label>
+    <input
+      type="datetime-local"
+      id="totime"
+      name="totime"
+      onchange="todata()"
+    />
+    <br /><br /><br />
+
+    <canvas id="myChart" style="width: 100%; max-width: 600px"></canvas>
 
     <script>
+      var endpoint = "/chartapi";
 
-        var endpoint = '/chartapi'
+      $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function (data) {
+          console.log(data);
+          displaychartevent(data);
+        },
+        error: function (error_data) {
+          console.log(error_data);
+        },
+      });
 
-        $.ajax({
+      function displaychartevent(data) {
+        var xValues = data.time;
+        var yValues = data.personcount;
+
+        new Chart("myChart", {
+          type: "line",
+          data: {
+            labels: xValues,
+            datasets: [
+              {
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues,
+              },
+            ],
+          },
+          options: {
+            legend: { display: false },
+            scales: {
+              yAxes: [{ ticks: { min: 0, max: data.persamax } }],
+            },
+          },
+        });
+      }
+
+      function fromdata() {
+        if (document.getElementById("totime").value) {
+          console.log(document.getElementById("fromtime").value);
+          console.log(document.getElementById("totime").value);
+
+          var fromtime = document.getElementById("fromtime").value;
+          var totime = document.getElementById("totime").value;
+
+          var endpointtime ="/chartapi?fromtime=" + fromtime + "&totime=" + totime;
+
+          $.ajax({
             method: "GET",
-            url: endpoint,
+            url: endpointtime,
             success: function (data) {
-                console.log(data);
-                displaychartevent(data);
+              console.log(data);
+              displaychartevent(data);
             },
             error: function (error_data) {
-                console.log(error_data);
+              console.log(error_data);
             },
-        });
+          });
 
-        function displaychartevent(data){
+          function displaychartevent(data) {
             var xValues = data.time;
             var yValues = data.personcount;
 
             new Chart("myChart", {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        fill: false,
-                        lineTension: 0,
-                        backgroundColor: "rgba(0,0,255,1.0)",
-                        borderColor: "rgba(0,0,255,0.1)",
-                        data: yValues
-                    }]
+              type: "line",
+              data: {
+                labels: xValues,
+                datasets: [
+                  {
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues,
+                  },
+                ],
+              },
+              options: {
+                legend: { display: false },
+                scales: {
+                  yAxes: [{ ticks: { min: 0, max: data.persamax } }],
                 },
-                options: {
-                    legend: { display: false },
-                    scales: {
-                        yAxes: [{ ticks: { min: 0, max: data.persamax } }],
-                    }
-                }
+              },
             });
+          }
         }
+      }
+
+      function todata() {
+        if (document.getElementById("fromtime").value) {
+          console.log(document.getElementById("fromtime").value);
+          console.log(document.getElementById("totime").value);
+
+          var fromtime = document.getElementById("fromtime").value;
+          var totime = document.getElementById("totime").value;
+
+          var endpointtime =
+            "/chartapi?fromtime=" + fromtime + "&totime=" + totime;
+
+          $.ajax({
+            method: "GET",
+            url: endpointtime,
+            success: function (data) {
+              console.log(data);
+              displaychartevent(data);
+            },
+            error: function (error_data) {
+              console.log(error_data);
+            },
+          });
+
+          function displaychartevent(data) {
+            var xValues = data.time;
+            var yValues = data.personcount;
+
+            new Chart("myChart", {
+              type: "line",
+              data: {
+                labels: xValues,
+                datasets: [
+                  {
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues,
+                  },
+                ],
+              },
+              options: {
+                legend: { display: false },
+                scales: {
+                  yAxes: [{ ticks: { min: 0, max: data.persamax } }],
+                },
+              },
+            });
+          }
+        }
+      }
     </script>
-
-</body>
-
+  </body>
 </html>
