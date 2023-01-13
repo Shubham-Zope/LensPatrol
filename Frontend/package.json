@@ -1,0 +1,15 @@
+{
+  "name": "lenspatrol",
+  "version": "1.0.0",
+  "description": "BE Project Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel eventReporter.html",
+    "build": "parcel build eventReporter.html"
+  },
+  "author": "group-10",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.8.0"
+  }
+}

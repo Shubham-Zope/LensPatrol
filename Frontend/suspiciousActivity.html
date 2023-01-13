@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suspicious Activity</title>
+
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">LensPatrol</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbar"
+          aria-controls="navbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"
+                >Redirected Page</a
+              >
+            </li>
+          </ul>
+          <div class="dropdown me-5">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              >Options</a
+            >
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="suspiciousActivity.html"
+                  >Redirected Page</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="eventReporter.html"
+                  >Event Rerporter</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div
+        id="hero"
+        class="d-flex justify-content-center align-items-center py-4"
+      >
+        <div class="display-5 fw-bold">Suspicious Activity</div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row py-5">
+          <!-- The Specific Image -->
+          <div
+            class="col-7 py-5 d-flex justify-content-center align-items-center"
+          >
+            <img src="https://picsum.photos/480/360" alt="" />
+          </div>
+
+          <div class="col-5 bg-light py-3 px-5">
+            <!-- Labels and Classifications -->
+            <form>
+              <h2 class="pb-1 mb-3" id="frameDetailsText">Frame Details</h2>
+              <div class="input-group mb-3">
+                <label class="input-group-text bg-dark text-white fs-5"
+                  >Class</label
+                >
+                <input
+                  class="form-control bg-white fs-5"
+                  type="text"
+                  value="Chain Snatching"
+                  disabled
+                  readonly
+                />
+              </div>
+              <div class="input-group mb-3">
+                <label class="input-group-text bg-dark text-white fs-5"
+                  >Timestamp</label
+                >
+                <input
+                  class="form-control bg-white fs-5"
+                  type="text"
+                  value="Random Date & Random Time"
+                  disabled
+                  readonly
+                />
+              </div>
+              <div class="input-group mb-3">
+                <label class="input-group-text bg-dark text-white fs-5"
+                  >Location</label
+                >
+                <input
+                  class="form-control bg-white fs-5"
+                  type="text"
+                  value="Video Cam 69"
+                  disabled
+                  readonly
+                />
+              </div>
+              <div class="input-group mb-3">
+                <label class="input-group-text bg-dark text-white fs-5"
+                  >Flagged As</label
+                >
+                <input
+                  class="form-control bg-white fs-5"
+                  type="text"
+                  value="Suspicious-Manual Review Required"
+                  disabled
+                  readonly
+                />
+              </div>
+            </form>
+
+            <!-- Flag Buttons -->
+
+            <div class="mt-5">
+              <div class="d-flex justify-content-around align-items-center">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="suspiciousFlag"
+                  id="susFlag"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-lg btn-outline-danger" for="susFlag"
+                  >Suspicious</label
+                >
+
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="suspiciousFlag"
+                  id="notSusFlag"
+                  autocomplete="off"
+                />
+                <label class="btn btn-lg btn-outline-success" for="notSusFlag"
+                  >Not Suspicious</label
+                >
+
+                <button type="submit" class="btn-lg btn btn-outline-primary">
+                  Submit
+                </button>
+              </div>
+              <div class="mt-4 d-grid gap-2 col-6 mx-auto">
+                <button
+                  class="btn btn-lg btn-outline-warning text-dark"
+                  type="button"
+                >
+                  Generate Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+      integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

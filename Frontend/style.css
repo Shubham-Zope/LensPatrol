@@ -1,0 +1,19 @@
+#hero {
+  border-bottom: 1px solid #00001f;
+}
+
+#frameDetailsText {
+  border-bottom: 1px solid #a6a6a6;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+  color: #000000;
+  background-color: #f8f9fa;
+}
+
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}

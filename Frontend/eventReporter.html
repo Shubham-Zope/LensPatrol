@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Reports</title>
+
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">LensPatrol</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbar"
+          aria-controls="navbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"
+                >Redirected Page</a
+              >
+            </li>
+          </ul>
+          <div class="dropdown me-5">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              >Options</a
+            >
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="suspiciousActivity.html"
+                  >Redirected Page</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="eventReporter.html"
+                  >Event Rerporter</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Off-canvas -->
+    <div
+      class="offcanvas offcanvas-start text-bg-dark"
+      data-bs-scroll="false"
+      tabindex="-1"
+      id="filterSection"
+      aria-labelledby="filterSectionLabel"
+    >
+      <div class="offcanvas-header">
+        <h1 class="offcanvas-title" id="filterSectionLabel">Filters</h1>
+        <button
+          type="button"
+          class="btn-close me-1 btn-close-white fs-2"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <p class="mb-5">
+          Use these filters to precisely display the data that you wish to be
+          pictured.
+        </p>
+        <form>
+          <div class="mb-3">
+            <label for="startDnT" class="form-label">From Date & Time</label>
+            <input
+              type="datetime-local"
+              class="form-control"
+              id="startDnT"
+              name="startDnT"
+              value="2021-01-01T00:00"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="endDnT" class="form-label">To Date & Time</label>
+            <input
+              type="datetime-local"
+              class="form-control"
+              id="endDnT"
+              name="endDnT"
+              value="2022-01-01T00:00"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="class" class="form-label">Class type</label>
+            <select class="form-select" id="class" name="class">
+              <option selected disabled>select</option>
+              <option value="fire">Fire</option>
+              <option value="mugging">Mugging</option>
+              <option value="3">Zoophilia</option>
+              <option value="4">Triple Talaaq</option>
+            </select>
+          </div>
+
+          <div class="mb-5">
+            <label for="feed" class="form-label">Video Feed</label>
+            <select class="form-select" id="feed" name="feed">
+              <option selected disabled>select</option>
+              <option value="feed1">Video Feed 1</option>
+              <option value="feed2">Video Feed 2</option>
+              <option value="3">Zoophilia</option>
+              <option value="4">Triple Talaaq</option>
+            </select>
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-lg btn-outline-light" type="submit">
+              Go!
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Off-canvas Trigger Button -->
+      <div class="mt-4 text-center">
+        <button
+          class="btn btn-lg btn-outline-info text-dark mx-auto col-6"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#filterSection"
+          aria-controls="filterSection"
+        >
+          Filters
+        </button>
+      </div>
+
+      <!-- Nav & Pill -->
+      <ul
+        class="mt-5 nav nav-tabs d-flex justify-content-evenly"
+        id="myTab"
+        role="tablist"
+      >
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active fs-5 px-5 py-3"
+            id="event-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#event-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="event-tab-pane"
+            aria-selected="true"
+          >
+            Event Analysis
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link fs-5 px-5 py-3"
+            id="queue-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#queue-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="queue-tab-pane"
+            aria-selected="false"
+          >
+            Queue Analysis
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link fs-5 px-5 py-3"
+            id="rush-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#rush-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="rush-tab-pane"
+            aria-selected="false"
+          >
+            Rush Analysis
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link fs-5 px-5 py-3"
+            id="busy-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#busy-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="busy-tab-pane"
+            aria-selected="false"
+          >
+            Busy Counter Analysis
+          </button>
+        </li>
+      </ul>
+
+      <!-- Nav Contents -->
+      <div class="tab-content mt-5" id="myTabContent">
+        <!-- Event Analysis -->
+        <div
+          class="tab-pane fade show active"
+          id="event-tab-pane"
+          role="tabpanel"
+          aria-labelledby="event-tab"
+          tabindex="0"
+        >
+          <table class="table table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col"><div class="fs-5">#</div></th>
+                <th scope="col"><div class="fs-5">Class</div></th>
+                <th scope="col"><div class="fs-5">Image</div></th>
+                <th scope="col"><div class="fs-5">Timestamp</div></th>
+                <th scope="col"><div class="fs-5">Report</div></th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <!-- One Individual Row of the table -->
+
+              <tr>
+                <th scope="row">1</th>
+                <td>Theft</td>
+                <td>
+                  <!-- TODO Change data-bs-target for dynamic things -->
+                  <button
+                    class="btn btn-outline-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#event1"
+                  >
+                    Event ID : 1
+                  </button>
+                  <!-- Modal -->
+
+                  <!-- TODO Change id, aria-labelledby for dynamic things -->
+
+                  <div
+                    class="modal fade"
+                    id="event1"
+                    tabindex="-1"
+                    aria-labelledby="event1Label"
+                    data-bs-backdrop="static"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <!-- TODO Change id for dynamic things -->
+
+                          <h1 class="modal-title fs-5" id="event1Label">
+                            Event ID : 1
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <img src="https://picsum.photos/300" alt="abc" />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>Nov 17 2022 23:14:16</td>
+                <td>
+                  <button class="btn btn-outline-secondary">View Report</button>
+                </td>
+              </tr>
+
+              <!-- Row Ends -->
+
+              <tr>
+                <th scope="row">2</th>
+                <td>Drugs Overdose</td>
+                <td>
+                  <button
+                    class="btn btn-outline-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#event2"
+                  >
+                    Event ID : 2
+                  </button>
+                  <!-- Modal -->
+                  <div
+                    class="modal fade"
+                    id="event2"
+                    tabindex="-1"
+                    aria-labelledby="event2Label"
+                    data-bs-backdrop="static"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="event2Label">
+                            Event ID : 2
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <img src="https://picsum.photos/300" alt="abc" />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>May 05 2022 23:29:07</td>
+                <td>
+                  <button class="btn btn-outline-secondary">View Report</button>
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row">3</th>
+                <td>Not done homework</td>
+                <td>
+                  <button
+                    class="btn btn-outline-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#event3"
+                  >
+                    Event ID : 3
+                  </button>
+                  <!-- Modal -->
+                  <div
+                    class="modal fade"
+                    id="event3"
+                    tabindex="-1"
+                    aria-labelledby="event3Label"
+                    data-bs-backdrop="static"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="event3Label">
+                            Event ID : 3
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <img src="https://picsum.photos/300" alt="abc" />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>Nov 17 2022 23:14:16</td>
+                <td>
+                  <button class="btn btn-outline-secondary">View Report</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Queue Analysis -->
+        <div
+          class="tab-pane fade"
+          id="queue-tab-pane"
+          role="tabpanel"
+          aria-labelledby="queue-tab"
+          tabindex="0"
+        >
+          <div class="row">
+            <div class="col-4 bg-secondary"></div>
+            <div class="col-8">
+              <div><canvas id="queueChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rush Analysis -->
+        <div
+          class="tab-pane fade"
+          id="rush-tab-pane"
+          role="tabpanel"
+          aria-labelledby="rush-tab"
+          tabindex="0"
+        >
+          <div class="row">
+            <div class="col-8">
+              <canvas id="rushChart"></canvas>
+            </div>
+            <div class="col-4 bg-secondary"></div>
+          </div>
+        </div>
+
+        <!-- Busy Counter Analysis -->
+        <div
+          class="tab-pane fade"
+          id="busy-tab-pane"
+          role="tabpanel"
+          aria-labelledby="busy-tab"
+          tabindex="0"
+        >
+          Busy Shit.
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+      integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- ChartJS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="charts.js"></script>
+  </body>
+</html>
